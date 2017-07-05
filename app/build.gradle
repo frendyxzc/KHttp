@@ -31,5 +31,6 @@ dependencies {
 
     compile "com.android.support:appcompat-v7:$support_version"
 
-    compile project(':khttp')
+    compile "com.github.frendyxzc:KHttp:$khttp_version"
+//    compile project(':khttp')
 }
