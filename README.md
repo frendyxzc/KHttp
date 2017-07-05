@@ -18,7 +18,7 @@ allprojects {
 
 ```
 dependencies {
-		compile 'com.github.frendyxzc:KHttp:0.0.1'
+	compile 'com.github.frendyxzc:KHttp:0.0.1'
 }
 ```
 
@@ -112,3 +112,6 @@ fun init(callback: Callback<UserID>) {
 	}
 }
 ```
+
+
+![qrcode_card](http://upload-images.jianshu.io/upload_images/6306778-a7f87bf828053a7d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
