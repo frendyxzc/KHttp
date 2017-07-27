@@ -18,7 +18,7 @@ class KRequest {
     var timeout: Long = 10
 
     internal var _success: (String) -> Unit = { }
-    internal var _fail: (Throwable) -> Unit = {}
+    internal var _fail: (Throwable) -> Unit = { }
 
     fun onSuccess(onSuccess: (String) -> Unit) {
         _success = onSuccess
