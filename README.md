@@ -112,3 +112,8 @@ fun init(callback: Callback<UserID>) {
 	}
 }
 ```
+
+
+## More info:
+
+* [Kotlin DSL 编程示例 • KHttp](http://www.jianshu.com/p/5e0bcc854150)
