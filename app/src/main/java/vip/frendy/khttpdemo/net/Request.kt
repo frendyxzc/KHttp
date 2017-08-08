@@ -18,7 +18,7 @@ import vip.frendy.khttpdemo.util.DeviceInfo
 class Request(val context: Context, val gson: Gson = Gson()) {
 
     fun getNewsList(uid: String, cid: String) {
-        val url_get = RequestCommon.GET_NEWS_LIST + "&uid=" + uid + "&type_id=" + cid
+        val url_get = RequestCommon.GET_NEWS_LIST + "&uid=${uid}&type_id=${cid}"
 
         http {
             url = url_get
@@ -33,7 +33,7 @@ class Request(val context: Context, val gson: Gson = Gson()) {
     }
 
     fun getNewsList(uid: String, cid: String, callback: Callback<ArrayList<News>>) {
-        val url_get = RequestCommon.GET_NEWS_LIST + "&uid=" + uid + "&type_id=" + cid
+        val url_get = RequestCommon.GET_NEWS_LIST + "&uid=${uid}&type_id=${cid}"
 
         http {
             url = url_get

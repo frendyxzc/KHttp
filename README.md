@@ -32,7 +32,7 @@ Request(this).getNewsList("0", "0")
 
 ```
 fun getNewsList(uid: String, cid: String) {
-	val url_get = RequestCommon.GET_NEWS_LIST + "&uid=" + uid + "&type_id=" + cid
+	val url_get = RequestCommon.GET_NEWS_LIST + "&uid=${uid}&type_id=${cid}"
 
 	http {
 		url = url_get
@@ -62,7 +62,7 @@ Request(this).getNewsList("0", "0", object : Callback<ArrayList<News>> {
 
 ```
 fun getNewsList(uid: String, cid: String, callback: Callback<ArrayList<News>>) {
-	val url_get = RequestCommon.GET_NEWS_LIST + "&uid=" + uid + "&type_id=" + cid
+	val url_get = RequestCommon.GET_NEWS_LIST + "&uid=${uid}&type_id=${cid}"
 
 	http {
 		url = url_get
