@@ -1,5 +1,9 @@
 # KHttp
+
+[![](https://jitpack.io/v/frendyxzc/KHttp.svg)](https://jitpack.io/#frendyxzc/KHttp)
+
 Wrapper of OKHttp3 with Kotlin DSL
+
 
 ## Usage
 
