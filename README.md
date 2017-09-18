@@ -22,7 +22,7 @@ allprojects {
 
 ```
 dependencies {
-	compile 'com.github.frendyxzc:KHttp:0.0.2'
+	compile 'com.github.frendyxzc:KHttp:0.0.3'
 }
 ```
 
@@ -113,6 +113,30 @@ fun init(callback: Callback<UserID>) {
 		onFail {
 			e -> callback.onFail(e.message)
 		}
+	}
+}
+```
+
+#### 3.4 Websocket
+
+```
+Socket {
+	url = "ws://10.1.1.105:8080/ws"
+
+	onOpen { webSocket, response ->
+
+	}
+	onMessage { webSocket, text ->
+
+	}
+	onClosing { webSocket, code, reason ->
+
+	}
+	onClosed { webSocket, code, reason ->
+
+	}
+	onFailure { webSocket, t, response ->
+
 	}
 }
 ```
