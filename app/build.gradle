@@ -30,6 +30,7 @@ dependencies {
     })
 
     compile "com.android.support:appcompat-v7:$support_version"
+    compile "org.jetbrains.anko:anko-common:$anko_version"
 
 //    compile "com.github.frendyxzc:KHttp:$khttp_version"
     compile project(':khttp')

@@ -3,12 +3,18 @@ package vip.frendy.khttpdemo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.iimedia.appbase.extension.postDelayedToUI
+import org.jetbrains.anko.toast
 import vip.frendy.khttp.Callback
+import vip.frendy.khttp.KSocket
+import vip.frendy.khttp.Socket
 import vip.frendy.khttpdemo.entity.News
 import vip.frendy.khttpdemo.entity.UserID
 import vip.frendy.khttpdemo.net.Request
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    var mSocket: KSocket? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,5 +39,38 @@ class MainActivity : AppCompatActivity() {
                 Log.i("", "POST error = $error")
             }
         })
+
+        mSocket = Socket {
+            url = "ws://10.1.1.105:8080/ws"
+
+            onOpen { webSocket, response ->
+                runOnUiThread {
+                    toast("Open")
+                }
+            }
+            onMessage { webSocket, text ->
+                runOnUiThread {
+                    toast("Message: ${text}")
+                }
+            }
+            onClosing { webSocket, code, reason ->
+                runOnUiThread {
+                    toast("Closing: ${code}, ${reason}")
+                }
+            }
+            onClosed { webSocket, code, reason ->
+                runOnUiThread {
+                    toast("Closed: ${code}, ${reason}")
+                }
+            }
+            onFailure { webSocket, t, response ->
+                runOnUiThread {
+                    toast("Failure")
+                    postDelayedToUI({
+                        mSocket?.connect()
+                    }, 30000)
+                }
+            }
+        }
     }
 }
