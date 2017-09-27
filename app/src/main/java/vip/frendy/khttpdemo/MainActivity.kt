@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.iimedia.appbase.extension.postDelayedToUI
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 import vip.frendy.khttp.Callback
 import vip.frendy.khttp.KSocket
@@ -14,7 +15,7 @@ import vip.frendy.khttpdemo.net.Request
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    var mSocket: KSocket? = null
+    private var mSocket: KSocket? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         mSocket = Socket {
-            url = "ws://10.1.1.105:8080/ws/room101"
+            url = "ws://10.1.1.186:8010/multichat/chatroom/1"
 
             onOpen { webSocket, response ->
                 runOnUiThread {
@@ -71,6 +72,10 @@ class MainActivity : AppCompatActivity() {
                     }, 30000)
                 }
             }
+        }
+
+        send.setOnClickListener {
+            mSocket?.getWebSocket()?.send("Hello")
         }
     }
 }
