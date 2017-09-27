@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         mSocket = Socket {
-            url = "ws://10.1.1.105:8080/ws"
+            url = "ws://10.1.1.105:8080/ws/room101"
 
             onOpen { webSocket, response ->
                 runOnUiThread {

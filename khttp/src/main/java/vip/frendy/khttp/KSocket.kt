@@ -7,6 +7,7 @@ import okhttp3.*
  */
 class KSocket {
     var url: String? = null
+    var mSocket: WebSocket? = null
 
     internal var _open: (webSocket: WebSocket?, response: Response?) -> Unit = { webSocket: WebSocket?, response: Response? -> }
     internal var _message: (webSocket: WebSocket?, text: String?) -> Unit = { webSocket: WebSocket?, text: String? -> }
@@ -39,7 +40,11 @@ class KSocket {
         }
         val listener = Listener(this)
 
-        client.newWebSocket(request, listener)
+        mSocket = client.newWebSocket(request, listener)
+    }
+
+    fun getSocket(): WebSocket? {
+        return mSocket
     }
 }
 
