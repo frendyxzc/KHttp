@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         mSocket = Socket {
-            url = "ws://10.1.1.186:8010/multichat/chatroom/1"
+            url = "ws://commonother.myxianwen.cn/multichat/chatroom/1"
 
             onOpen { webSocket, response ->
                 runOnUiThread {

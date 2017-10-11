@@ -15,7 +15,6 @@ class KRequest {
     var url: String? = null
     var method: String? = null
     var body: RequestBody? = null
-    var timeout: Long = 10
 
     internal var _success: (String) -> Unit = { }
     internal var _fail: (Throwable) -> Unit = { }
@@ -35,21 +34,32 @@ interface Callback<T> {
 
 val JSON: MediaType = MediaType.parse("application/json; charset=utf-8")!!
 
-
 fun http(init: KRequest.() -> Unit) {
     val wrap = KRequest()
     wrap.init()
     executeForResult(wrap)
 }
 
+
+
 private fun executeForResult(wrap: KRequest) {
     Flowable.create<Response>(
             { e -> e.onNext(onExecute(wrap)) },
             BackpressureStrategy.BUFFER
-    ).subscribeOn(Schedulers.io()).subscribe(
+    ).subscribeOn(
+            Schedulers.io()
+    ).subscribe(
             { resp -> wrap._success(resp.body()!!.string()) },
             { e -> wrap._fail(e) }
     )
+}
+
+
+
+private var httpClient = OkHttpClient.Builder().connectTimeout(10L, TimeUnit.SECONDS).build()
+
+fun setHttpClient(client: OkHttpClient) {
+    httpClient = client
 }
 
 private fun onExecute(wrap: KRequest): Response? {
@@ -60,7 +70,6 @@ private fun onExecute(wrap: KRequest): Response? {
         "put", "Put", "PUT" -> req = Request.Builder().url(wrap.url).put(wrap.body).build()
         "delete", "Delete", "DELETE" -> req = Request.Builder().url(wrap.url).delete(wrap.body).build()
     }
-    val http = OkHttpClient.Builder().connectTimeout(wrap.timeout, TimeUnit.SECONDS).build()
-    val resp = http.newCall(req).execute()
+    val resp = httpClient.newCall(req).execute()
     return resp
 }
