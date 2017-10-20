@@ -5,17 +5,22 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.iimedia.appbase.extension.postDelayedToUI
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.mockwebserver.MockWebServer
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
+import org.jetbrains.anko.uiThread
 import vip.frendy.khttp.Callback
 import vip.frendy.khttp.KSocket
 import vip.frendy.khttp.Socket
 import vip.frendy.khttpdemo.entity.News
 import vip.frendy.khttpdemo.entity.UserID
+import vip.frendy.khttpdemo.mock.MockServer
 import vip.frendy.khttpdemo.net.Request
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private var mSocket: KSocket? = null
+    private var mWebServer: MockWebServer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +46,32 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+
+        /**
+         * Mock Server of WebSocket
+         */
+        startServer()
+
+        send.setOnClickListener {
+            mSocket?.getWebSocket()?.send("Hello")
+        }
+    }
+
+    private fun startServer() = doAsync {
+        mWebServer = MockServer().getWebServer()
+
+        val hostname = mWebServer?.hostName
+        val port = mWebServer?.port
+
+        uiThread {
+            initSocket(hostname, port)
+        }
+    }
+
+    private fun initSocket(hostname: String?, port: Int?) {
         mSocket = Socket {
-            url = "ws://commonother.myxianwen.cn/multichat/chatroom/1"
+//            url = "ws://commonother.myxianwen.cn/multichat/chatroom/1"
+            url = "ws://${hostname}:${port}/"
 
             onOpen { webSocket, response ->
                 runOnUiThread {
@@ -72,10 +101,6 @@ class MainActivity : AppCompatActivity() {
                     }, 30000)
                 }
             }
-        }
-
-        send.setOnClickListener {
-            mSocket?.getWebSocket()?.send("Hello")
         }
     }
 }
