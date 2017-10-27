@@ -19,15 +19,26 @@ class Request(val context: Context, val gson: Gson = Gson()) {
 
     fun getNewsList(uid: String, cid: String) {
         val url_get = RequestCommon.GET_NEWS_LIST + "&uid=${uid}&type_id=${cid}"
+        var startTime = 0L
+        var endTime = 0L
 
         http {
             url = url_get
             method = "get"
-            onSuccess {
-                jsonStr: String -> Log.i("", jsonStr)
+            onExecute {
+                startTime = System.currentTimeMillis()
             }
-            onFail {
-                e -> Log.i("", e.message)
+            onSuccess { jsonStr: String ->
+                endTime = System.currentTimeMillis()
+                Log.i("", "** Success!! cost : ${endTime - startTime}ms")
+
+                Log.i("", jsonStr)
+            }
+            onFail { e ->
+                endTime = System.currentTimeMillis()
+                Log.i("", "** Fail!! cost : ${endTime - startTime}ms")
+
+                Log.i("", e.message)
             }
         }
     }

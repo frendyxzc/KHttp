@@ -18,7 +18,11 @@ class KRequest {
 
     internal var _success: (String) -> Unit = { }
     internal var _fail: (Throwable) -> Unit = { }
+    internal var _execute: () -> Unit = { }
 
+    fun onExecute(onExecute: () -> Unit) {
+        _execute = onExecute
+    }
     fun onSuccess(onSuccess: (String) -> Unit) {
         _success = onSuccess
     }
@@ -62,7 +66,7 @@ fun setHttpClient(client: OkHttpClient) {
     httpClient = client
 }
 
-private fun onExecute(wrap: KRequest): Response? {
+private fun onExecute(wrap: KRequest): Response {
     var req: Request? = null
     when (wrap.method) {
         "get", "Get", "GET" -> req = Request.Builder().url(wrap.url).build()
@@ -70,6 +74,8 @@ private fun onExecute(wrap: KRequest): Response? {
         "put", "Put", "PUT" -> req = Request.Builder().url(wrap.url).put(wrap.body).build()
         "delete", "Delete", "DELETE" -> req = Request.Builder().url(wrap.url).delete(wrap.body).build()
     }
+    wrap._execute()
+
     val resp = httpClient.newCall(req).execute()
     return resp
 }
