@@ -22,7 +22,7 @@ allprojects {
 
 ```
 dependencies {
-	compile 'com.github.frendyxzc:KHttp:0.0.6'
+	compile 'com.github.frendyxzc:KHttp:0.0.8'
 }
 ```
 
@@ -140,6 +140,33 @@ Socket {
 	}
 }
 ```
+
+#### 3.5 Upload File
+
+```
+Upload {
+	url = "http://10.1.1.105:8080/fileUpload"
+	file = File("/storage/sdcard0/DCIM/ImageSelector_20170823_144056.mp4")
+	formFileKey = "file"
+
+	onRequestProgress { bytesWritten, contentLength ->
+		Log.i("", "** UPLOAD - onRequestProgress : ${(bytesWritten * 100) / contentLength}%")
+	}
+
+	onFailure { err ->
+		Log.i("", "** UPLOAD - onFailure : ${err?.toString()}")
+	}
+
+	onResponse { response ->
+		if(response != null && response.body() != null) {
+			if(response.isSuccessful()) {
+				Log.i("", "** UPLOAD - onResponse : ${response.body()!!.string()}")
+			}
+		}
+	}
+}
+```
+
 
 
 ## More info:
