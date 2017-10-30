@@ -28,16 +28,14 @@ class Request(val context: Context, val gson: Gson = Gson()) {
             onExecute {
                 startTime = System.currentTimeMillis()
             }
-            onSuccess { jsonStr: String ->
+            onSuccess { jsonStr ->
                 endTime = System.currentTimeMillis()
                 Log.i("", "** Success!! cost : ${endTime - startTime}ms")
-
                 Log.i("", jsonStr)
             }
             onFail { e ->
                 endTime = System.currentTimeMillis()
                 Log.i("", "** Fail!! cost : ${endTime - startTime}ms")
-
                 Log.i("", e.message)
             }
         }
@@ -49,11 +47,11 @@ class Request(val context: Context, val gson: Gson = Gson()) {
         http {
             url = url_get
             method = "get"
-            onSuccess {
-                jsonStr: String -> callback.onSuccess(gson.fromJson(jsonStr, RespGetNews::class.java).data)
+            onSuccess { jsonStr ->
+                callback.onSuccess(gson.fromJson(jsonStr, RespGetNews::class.java).data)
             }
-            onFail {
-                e -> callback.onFail(e.message)
+            onFail { e ->
+                callback.onFail(e.message)
             }
         }
     }
@@ -62,7 +60,7 @@ class Request(val context: Context, val gson: Gson = Gson()) {
         val url_post = RequestCommon.BASE_URL
 
         val json = JSONObject()
-        val params: ReqInit = ReqInit(DeviceInfo.getAndroidID(context))
+        val params = ReqInit(DeviceInfo.getAndroidID(context))
         json.put("params", gson.toJson(params))
         json.put("action", "init")
         json.put("app_id", Constants.APP_ID)
@@ -74,11 +72,11 @@ class Request(val context: Context, val gson: Gson = Gson()) {
             url = url_post
             method = "post"
             body = postBody
-            onSuccess {
-                jsonStr: String -> callback.onSuccess(gson.fromJson(jsonStr, RespInit::class.java).data)
+            onSuccess { jsonStr ->
+                callback.onSuccess(gson.fromJson(jsonStr, RespInit::class.java).data)
             }
-            onFail {
-                e -> callback.onFail(e.message)
+            onFail { e ->
+                callback.onFail(e.message)
             }
         }
     }

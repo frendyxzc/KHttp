@@ -41,11 +41,11 @@ fun getNewsList(uid: String, cid: String) {
 	http {
 		url = url_get
 		method = "get"
-		onSuccess {
-			jsonStr: String -> Log.i("", jsonStr)
+		onSuccess { jsonStr ->
+			Log.i("", jsonStr)
 		}
-		onFail {
-			e -> Log.i("", e.message)
+		onFail { e ->
+			Log.i("", e.message)
 		}
 	}
 }
@@ -71,11 +71,11 @@ fun getNewsList(uid: String, cid: String, callback: Callback<ArrayList<News>>) {
 	http {
 		url = url_get
 		method = "get"
-		onSuccess {
-			jsonStr: String -> callback.onSuccess(gson.fromJson(jsonStr, RespGetNews::class.java).data)
+		onSuccess { jsonStr ->
+			callback.onSuccess(gson.fromJson(jsonStr, RespGetNews::class.java).data)
 		}
-		onFail {
-			e -> callback.onFail(e.message)
+		onFail { e ->
+			callback.onFail(e.message)
 		}
 	}
 }
@@ -107,11 +107,11 @@ fun init(callback: Callback<UserID>) {
 		url = url_post
 		method = "post"
 		body = postBody
-		onSuccess {
-			jsonStr: String -> callback.onSuccess(gson.fromJson(jsonStr, RespInit::class.java).data)
+		onSuccess { jsonStr ->
+			callback.onSuccess(gson.fromJson(jsonStr, RespInit::class.java).data)
 		}
-		onFail {
-			e -> callback.onFail(e.message)
+		onFail { e ->
+			callback.onFail(e.message)
 		}
 	}
 }
