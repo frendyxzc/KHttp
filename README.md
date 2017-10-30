@@ -147,22 +147,16 @@ Socket {
 Upload {
 	url = "http://10.1.1.105:8080/fileUpload"
 	file = File("/storage/sdcard0/DCIM/ImageSelector_20170823_144056.mp4")
-	formFileKey = "file"
+	fileKey = "file"
 
 	onRequestProgress { bytesWritten, contentLength ->
-		Log.i("", "** UPLOAD - onRequestProgress : ${(bytesWritten * 100) / contentLength}%")
-	}
 
+	}
 	onFailure { err ->
-		Log.i("", "** UPLOAD - onFailure : ${err?.toString()}")
-	}
 
+	}
 	onResponse { response ->
-		if(response != null && response.body() != null) {
-			if(response.isSuccessful()) {
-				Log.i("", "** UPLOAD - onResponse : ${response.body()!!.string()}")
-			}
-		}
+
 	}
 }
 ```
