@@ -10,10 +10,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
-import vip.frendy.khttp.Callback
-import vip.frendy.khttp.KSocket
-import vip.frendy.khttp.Socket
-import vip.frendy.khttp.Upload
+import vip.frendy.khttp.*
 import vip.frendy.khttpdemo.entity.News
 import vip.frendy.khttpdemo.entity.UserID
 import vip.frendy.khttpdemo.mock.MockServer
@@ -95,6 +92,30 @@ class MainActivity : AppCompatActivity() {
 
         uploadCancle.setOnClickListener {
             mUploadCall?.cancel()
+        }
+
+
+        /**
+         * Download file
+         */
+        download.setOnClickListener {
+            Download {
+                url = "https://raw.githubusercontent.com/litesuits/android-lite-orm/master/jars/lite-orm-1.9.2.jar"
+                filePath = "/storage/sdcard0/DCIM/"
+                fileName = "liteorm.jar"
+
+                onRequestProgress { bytesWritten, contentLength ->
+                    Log.i("", "** DOWNLOAD - onRequestProgress : ${(bytesWritten * 100) / contentLength}%")
+                }
+
+                onFail { e ->
+                    Log.i("", "** DOWNLOAD - onFail : ${e}")
+                }
+
+                onSuccess { file ->
+                    Log.i("", "** DOWNLOAD - onSuccess : ${file}")
+                }
+            }
         }
     }
 
