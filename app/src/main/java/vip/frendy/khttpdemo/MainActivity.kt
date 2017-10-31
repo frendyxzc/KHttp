@@ -20,6 +20,7 @@ import vip.frendy.khttpdemo.mock.MockServer
 import vip.frendy.khttpdemo.net.Request
 import java.io.File
 import java.util.*
+import kotlin.collections.HashMap
 
 class MainActivity : AppCompatActivity() {
     private var mSocket: KSocket? = null
@@ -69,6 +70,10 @@ class MainActivity : AppCompatActivity() {
                 url = "http://api.myxianwen.cn/26/fileUpload.action?app_id=5020&userId=0"
                 file = File("/storage/sdcard0/DCIM/ImageSelector_20170823_144056.mp4")
                 fileKey = "file"
+
+                params = HashMap<String, String>().apply {
+                    put("test", "testfile")
+                }
 
                 onRequestProgress { bytesWritten, contentLength ->
                     Log.i("", "** UPLOAD - onRequestProgress : ${(bytesWritten * 100) / contentLength}%")

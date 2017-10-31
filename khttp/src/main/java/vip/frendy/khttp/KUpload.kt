@@ -15,6 +15,7 @@ class KUpload {
     var url: String? = null
     var file: File? = null
     var fileKey: String? = null
+    var params: HashMap<String, String>? = null
 
     internal var _requestProgress: (Long, Long) -> Unit = { bytesWritten, contentLength -> }
     internal var _failure: (IOException?) -> Unit = { }
@@ -43,14 +44,21 @@ fun Upload(init: KUpload.() -> Unit): Call? {
 private fun upload(wrap: KUpload): Call? {
     if(wrap.url == null || wrap.file == null) return null
 
-    val fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), wrap.file!!)
     val requestBody = MultipartBody.Builder()
-            .setType(MultipartBody.FORM)
-            .addFormDataPart(wrap.fileKey!!, wrap.file!!.name, fileBody)
-            .build()
+    requestBody.setType(MultipartBody.FORM)
+    if(wrap.file != null) {
+        val fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), wrap.file!!)
+        requestBody.addFormDataPart(wrap.fileKey!!, wrap.file!!.name, fileBody)
+    }
+    if(wrap.params != null && wrap.params!!.isNotEmpty()) {
+        for(param in wrap.params!!) {
+            requestBody.addFormDataPart(param.key, param.value)
+        }
+    }
+
     val request = Request.Builder()
             .url(wrap.url!!)
-            .post(requestBody)
+            .post(requestBody.build())
             .build()
 
     val interceptor = UploadProgressInterceptor(object : CountingRequestBody.Listener {
