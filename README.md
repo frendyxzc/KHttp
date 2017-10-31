@@ -22,7 +22,7 @@ allprojects {
 
 ```
 dependencies {
-	compile 'com.github.frendyxzc:KHttp:0.0.8'
+	compile 'com.github.frendyxzc:KHttp:0.0.9'
 }
 ```
 
@@ -161,6 +161,25 @@ Upload {
 }
 ```
 
+#### 3.6 Download File
+
+```
+Download {
+	url = "http://10.1.1.105:8080/file/test.apk"
+	filePath = "/storage/sdcard0/DCIM/"
+	fileName = "test001.apk"
+
+	onRequestProgress { bytesWritten, contentLength ->
+
+	}
+	onFail { e ->
+
+	}
+	onSuccess { file ->
+
+	}
+}
+```
 
 
 ## More info:
