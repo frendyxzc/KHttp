@@ -70,7 +70,7 @@ private fun onExecute(wrap: KRequest): Response {
     }
     wrap._execute()
 
-    val okHttpClient = KHttpClient.getInstance()
-    val resp = okHttpClient.newCall(req).execute()
+    val httpClient = KHttpClient.getInstance()
+    val resp = httpClient.newCall(req).execute()
     return resp
 }

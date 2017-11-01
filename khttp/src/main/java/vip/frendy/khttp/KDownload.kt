@@ -50,8 +50,8 @@ private fun download(wrap: KDownload): Call? {
             .url(wrap.url!!)
             .build()
 
-    val okHttpClient = KHttpClient.getInstance()
-    val call = okHttpClient.newCall(request)
+    val httpClient = KHttpClient.getInstance()
+    val call = httpClient.newCall(request)
 
     call.enqueue(object : okhttp3.Callback {
         override fun onFailure(call: Call?, e: IOException?) {

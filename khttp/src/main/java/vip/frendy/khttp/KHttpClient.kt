@@ -6,17 +6,20 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by frendy on 2017/11/1.
  */
-class KHttpClient {
+class KHttpClient private constructor() {
 
     companion object {
-        private var client: OkHttpClient? = null
+        @Volatile
+        var client: OkHttpClient? = null
 
         fun getInstance(): OkHttpClient {
             if(client == null) {
-                client = OkHttpClient.Builder()
-                        .connectTimeout(10, TimeUnit.SECONDS)
-                        .writeTimeout(15, TimeUnit.SECONDS)
-                        .build()
+                synchronized(KHttpClient::class) {
+                    client = OkHttpClient.Builder()
+                            .connectTimeout(10, TimeUnit.SECONDS)
+                            .writeTimeout(15, TimeUnit.SECONDS)
+                            .build()
+                }
             }
             return client!!
         }

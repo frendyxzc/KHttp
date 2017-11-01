@@ -68,12 +68,12 @@ private fun upload(wrap: KUpload): Call? {
     })
 
     val httpBuilder = OkHttpClient.Builder()
-    val okHttpClient = httpBuilder
+    val httpClient = httpBuilder
             .connectTimeout(10, TimeUnit.SECONDS)
             .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
             .build()
-    val call = okHttpClient.newCall(request)
+    val call = httpClient.newCall(request)
 
     call.enqueue(object : okhttp3.Callback {
         override fun onFailure(call: Call?, e: IOException?) {
