@@ -50,11 +50,7 @@ private fun download(wrap: KDownload): Call? {
             .url(wrap.url!!)
             .build()
 
-    val httpBuilder = OkHttpClient.Builder()
-    val okHttpClient = httpBuilder
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
-            .build()
+    val okHttpClient = KHttpClient.getInstance()
     val call = okHttpClient.newCall(request)
 
     call.enqueue(object : okhttp3.Callback {

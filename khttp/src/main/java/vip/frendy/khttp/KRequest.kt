@@ -60,12 +60,6 @@ private fun executeForResult(wrap: KRequest) {
 
 
 
-private var httpClient = OkHttpClient.Builder().connectTimeout(10L, TimeUnit.SECONDS).build()
-
-fun setHttpClient(client: OkHttpClient) {
-    httpClient = client
-}
-
 private fun onExecute(wrap: KRequest): Response {
     var req: Request? = null
     when (wrap.method) {
@@ -76,6 +70,7 @@ private fun onExecute(wrap: KRequest): Response {
     }
     wrap._execute()
 
-    val resp = httpClient.newCall(req).execute()
+    val okHttpClient = KHttpClient.getInstance()
+    val resp = okHttpClient.newCall(req).execute()
     return resp
 }
