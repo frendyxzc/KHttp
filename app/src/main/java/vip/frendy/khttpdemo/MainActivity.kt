@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Call
 import okhttp3.mockwebserver.MockWebServer
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 import vip.frendy.khttp.*
@@ -116,6 +117,11 @@ class MainActivity : AppCompatActivity() {
                     Log.i("", "** DOWNLOAD - onSuccess : ${file}")
                 }
             }
+        }
+
+
+        javaActivity.setOnClickListener {
+            startActivity<JavaActivity>()
         }
     }
 
