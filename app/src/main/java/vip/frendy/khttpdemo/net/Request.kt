@@ -47,6 +47,7 @@ class Request(val context: Context, val gson: Gson = Gson()) {
         http {
             url = url_get
             method = "get"
+            headers = HashMap()
             onSuccess { jsonStr ->
                 callback.onSuccess(gson.fromJson(jsonStr, RespGetNews::class.java).data)
             }
@@ -68,10 +69,16 @@ class Request(val context: Context, val gson: Gson = Gson()) {
         json.put("equip_type", 0)
         val postBody = RequestBody.create(JSON, json.toString())
 
+        val header = HashMap<String, String>().apply {
+            put("3", "22")
+            put("3", "22")
+        }
+
         http {
             url = url_post
             method = "post"
             body = postBody
+            headers = header
             onSuccess { jsonStr ->
                 callback.onSuccess(gson.fromJson(jsonStr, RespInit::class.java).data)
             }

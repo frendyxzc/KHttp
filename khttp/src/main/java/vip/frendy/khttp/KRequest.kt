@@ -15,6 +15,7 @@ class KRequest {
     var url: String? = null
     var method: String? = null
     var body: RequestBody? = null
+    var headers: HashMap<String, String>? = null
 
     internal var _success: (String) -> Unit = { }
     internal var _fail: (Throwable) -> Unit = { }
@@ -61,16 +62,23 @@ private fun executeForResult(wrap: KRequest) {
 
 
 private fun onExecute(wrap: KRequest): Response {
-    var req: Request? = null
+    var req: Request.Builder? = Request.Builder()
+    if(wrap.headers != null && wrap.headers!!.isNotEmpty()) {
+        for(header in wrap.headers!!) {
+            req?.addHeader(header.key, header.value)
+        }
+    }
+
+    var _req: Request? = null
     when (wrap.method) {
-        "get", "Get", "GET" -> req = Request.Builder().url(wrap.url).build()
-        "post", "Post", "POST" -> req = Request.Builder().url(wrap.url).post(wrap.body).build()
-        "put", "Put", "PUT" -> req = Request.Builder().url(wrap.url).put(wrap.body).build()
-        "delete", "Delete", "DELETE" -> req = Request.Builder().url(wrap.url).delete(wrap.body).build()
+        "get", "Get", "GET" -> _req = req?.url(wrap.url)?.build()
+        "post", "Post", "POST" -> _req = req?.url(wrap.url)?.post(wrap.body)?.build()
+        "put", "Put", "PUT" -> _req = req?.url(wrap.url)?.put(wrap.body)?.build()
+        "delete", "Delete", "DELETE" -> _req = req?.url(wrap.url)?.delete(wrap.body)?.build()
     }
     wrap._execute()
 
     val httpClient = KHttpClient.getInstance()
-    val resp = httpClient.newCall(req).execute()
+    val resp = httpClient.newCall(_req).execute()
     return resp
 }
