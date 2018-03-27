@@ -41,7 +41,7 @@ class MockServer() {
                 println("code:$code reason:$reason")
             }
 
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response) {
+            override fun onFailure(webSocket: WebSocket?, t: Throwable?, response: Response?) {
                 println("server onFailure")
                 println("throwable:" + t)
                 println("response:" + response)
