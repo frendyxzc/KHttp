@@ -22,7 +22,7 @@ allprojects {
 
 ```
 dependencies {
-	compile 'com.github.frendyxzc:KHttp:0.0.10'
+	compile 'com.github.frendyxzc:KHttp:0.1.0'
 }
 ```
 
