@@ -45,6 +45,11 @@ fun http(init: KRequest.() -> Unit) {
     executeForResult(wrap)
 }
 
+fun post(url: String, body: RequestBody?): Response {
+    val httpClient = KHttpClient.getInstance()
+    val request = if(body != null) Request.Builder().url(url).post(body).build() else Request.Builder().url(url).build()
+    return httpClient.newCall(request).execute()
+}
 
 
 private fun executeForResult(wrap: KRequest) {
