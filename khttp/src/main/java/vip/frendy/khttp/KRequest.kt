@@ -45,10 +45,22 @@ fun http(init: KRequest.() -> Unit) {
     executeForResult(wrap)
 }
 
-fun post(url: String, body: RequestBody?): Response {
+fun post(url: String, body: RequestBody?, headers: HashMap<String, String>?): Response {
     val httpClient = KHttpClient.getInstance()
-    val request = if(body != null) Request.Builder().url(url).post(body).build() else Request.Builder().url(url).build()
-    return httpClient.newCall(request).execute()
+    val req = Request.Builder()
+
+    if(headers != null && headers.isNotEmpty()) {
+        for(header in headers) {
+            if(header.key.equals("User-Agent")) {
+                req.removeHeader("User-Agent")
+            }
+            req.addHeader(header.key, header.value)
+        }
+    }
+
+    val _req = if(body != null) req.url(url).post(body).build() else req.url(url).build()
+
+    return httpClient.newCall(_req).execute()
 }
 
 
